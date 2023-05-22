@@ -29,8 +29,19 @@ module.exports = {
             ? res.status(400).json({ msg: "No user in db" })
             : res.json(dbUserData))
             .catch((err) => res.status(500).json(err));
+    },
+    async deleteUser(req, res) {
+        try {
+            const delUser = await User.findByIdAndDelete(req.params.id);
+            if (!delUser) {
+                return res.status(400).json({ msg: "No user exists in db" })
+            }
+            res.json(delUser);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Error deleting user', error })
+        }
     }
-
 
 
 }
