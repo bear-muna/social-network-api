@@ -18,5 +18,19 @@ module.exports = {
         User.create(req.body)
             .then((dbUserData) => res.json(dbUserData))
             .catch((err) => res.status(500).json(err));
+    },
+    updateUser(req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.id }, 
+            { $set: req.body }, 
+            { runValidators: true, new: true })
+            .then((dbUserData) => 
+            !dbUserData
+            ? res.status(400).json({ msg: "No user in db" })
+            : res.json(dbUserData))
+            .catch((err) => res.status(500).json(err));
     }
+
+
+
 }
