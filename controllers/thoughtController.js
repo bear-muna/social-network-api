@@ -1,4 +1,4 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
     // Get ALL Thoughts
@@ -31,7 +31,17 @@ module.exports = {
     async createThought(req, res) {
         try {
             const dbThoughtData = await Thought.create(req.body);
-            res.json(dbThoughtData);
+            if (dbThoughtData) {
+                const dbUserData = await User.findOneAndUpdate(
+                        { _id: req.body.UserId },
+                        { $addToSet: { thoughts: dbThoughtData._id }},
+                        { new: true }
+                );
+                if (!dbUserData) {
+                    return res.status(400).json({ msg: "User does not exist in db" });
+                }
+                res.json(dbUserData)
+            }
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: "Error creating a thought", error });
