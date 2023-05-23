@@ -74,16 +74,6 @@ module.exports = {
                 return res.status(400).json({ msg: "No thought exists in db" });
             }
             res.json(delThought)
-            // TODO: Extend this function to delete parent's subdocument of thoughts
-            // if (delThought) {
-            //     const dbUserData = await User.findOne({ thoughts: delThought._id });
-            //     if (dbUserData) {
-            //         const cascadeUser = await dbUserData.thoughts.pull( delThought._id );
-            //         res.json(cascadeUser);
-            //     } else {
-            //         return res.status(400).json({ msg: "No user exists in db" })
-            //     }
-            // }
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: "Error deleting thought", error });
