@@ -19,6 +19,7 @@ module.exports = {
             .then((dbUserData) => res.json(dbUserData))
             .catch((err) => res.status(500).json(err));
     },
+    // Update user by ID
     updateUser(req, res) {
         User.findOneAndUpdate(
             { _id: req.params.id }, 
@@ -30,6 +31,7 @@ module.exports = {
             : res.json(dbUserData))
             .catch((err) => res.status(500).json(err));
     },
+    // Delete user by ID
     async deleteUser(req, res) {
         try {
             const delUser = await User.findByIdAndDelete(req.params.id);
@@ -42,6 +44,4 @@ module.exports = {
             res.status(500).json({ msg: 'Error deleting user', error })
         }
     }
-
-
 }
