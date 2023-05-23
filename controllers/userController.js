@@ -51,7 +51,7 @@ module.exports = {
     // Add a Friend
     async addFriend(req, res) {
         try {
-            const dbUserData = await User.findOneAndUpdate({ _id: req.params.userId });
+            const dbUserData = await User.findOne({ _id: req.params.userId });
             const dbFriendData = await User.findOne({ _id: req.params.friendId });
 
             if (!(dbUserData && dbFriendData)) {
@@ -71,7 +71,35 @@ module.exports = {
             res.json({ updateUser, updateFriend })
         } catch (error) {
             console.log(error);
-            res.status(500).json({ msg: 'Error adding frined', error });
+            res.status(500).json({ msg: 'Error adding friend', error });
         }
     },
+    // Delete a Friend
+    // TODO: FINISH DELETE
+    async deleteFriend(req, res) {
+        try {
+            const dbUserData = await User.findOne({ _id: req.params.userId });
+            const dbFriendData = await User.findOne({ _id: req.params.friendId });
+
+            if (!(dbUserData && dbFriendData)) {
+                return res.status(400).json({ msg: "Users do not exist in db" });
+            }
+
+            const deleteUser = await dbUserData.delete(
+                { friends: dbUserData._id },
+                { new: true }
+            );
+
+            const deleteFriend = await dbFriendData.delete(
+                { friends: dbFriendData._id },
+                { new: true }
+            );
+
+            res.json({ deleteUser, deleteFriend });
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: 'Error deleting friend', error });
+        }
+    }
 }
