@@ -74,7 +74,12 @@ module.exports = {
             if (!delThought) {
                 return res.status(400).json({ msg: "No thought exists in db" });
             }
-            res.json(delThought)
+            const userThought = await User.findOneAndUpdate(
+                { thoughts: { _id: req.params.id } },
+                { $pull: { thoughts: req.params.id } },
+                { new: true }
+            )
+            res.json({ delThought, userThought })
         } catch (error) {
             console.log(error);
             res.status(500).json({ msg: "Error deleting thought", error });
