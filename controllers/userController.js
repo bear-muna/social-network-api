@@ -75,7 +75,6 @@ module.exports = {
         }
     },
     // Delete a Friend
-    // TODO: FINISH DELETE
     async deleteFriend(req, res) {
         try {
             const dbUserData = await User.findOne({ _id: req.params.userId });
@@ -85,13 +84,13 @@ module.exports = {
                 return res.status(400).json({ msg: "Users do not exist in db" });
             }
 
-            const deleteUser = await dbUserData.delete(
-                { friends: dbUserData._id },
+            const deleteUser = await dbUserData.update(
+                { $pull: { friends: dbFriendData._id } },
                 { new: true }
             );
 
-            const deleteFriend = await dbFriendData.delete(
-                { friends: dbFriendData._id },
+            const deleteFriend = await dbFriendData.update(
+                { $pull: { friends: dbUserData._id } },
                 { new: true }
             );
 
