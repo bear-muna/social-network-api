@@ -20,7 +20,6 @@ const userSchema = new Schema(
                 ref: 'Thought',
             }
         ],
-        // TODO: Make friend's reference
         friends: [
             {
                 type: Schema.Types.ObjectId,

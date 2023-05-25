@@ -19,10 +19,11 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            // TODO: Create a getter to format date
+            get: (date) => timeSince(date)
         }
     },
     {
+        toJSON: { getters: true },
         id: false
     }
 );
