@@ -12,7 +12,7 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: (date) => timeSince(date)
+            // get: (date) => timeSince(date)
         },
         username: {
             type: String,
@@ -23,7 +23,7 @@ const thoughtSchema = new Schema(
     {
         toJSON: {
             virtuals: true,
-            getters: true,
+            // getters: true,
         },
         id: false,
     }
